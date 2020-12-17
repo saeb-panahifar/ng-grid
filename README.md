@@ -1,4 +1,4 @@
-# Grid
+# A Simple Grid for Angualr Projects.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
