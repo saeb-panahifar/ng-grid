@@ -1,0 +1,25 @@
+.search-keyword {
+    font-size: 11px;
+    /* font-family: tahoma; */
+    font-weight: normal;
+}
+
+.search-remove{
+    padding: 2px;
+    background-color:#ebf5ff;
+    border-radius: 20%;
+}
+
+.remove-icon{
+    top: -1px;
+    position: relative;
+}
+
+.search-items{
+    margin: 3px;
+    border-radius: 10%;
+    background-color:#ebf5ff;
+    color: black;
+    height: 28px;
+    padding-right: 3px;
+}

@@ -1,0 +1,43 @@
+<div class="m-3">
+    <table class="table table-hover table-responsive table-striped box-border" style="direction: rtl;">
+        <thead>
+            <tr class="search-header" *ngIf="isSearchable()">
+                <th style="vertical-align: top;" [class]="col.searchable ? 'box-border' :''" scope="col"
+                    *ngFor="let col of config.columns">
+                    <div *ngIf="col.searchable">
+                        <ng-searching [col]="col" (onChangeKeyword)="onChangeKeyword()"></ng-searching>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th [style.width]="col.width" [style.text-align]="col.align ? col.align : 'right'" class=" box-border"
+                    scope="col" [sortable]="col.field" (sort)="onSort($event)" *ngFor="let col of config.columns">
+                    {{ col.title}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr (dblclick)="onRowDbclick($event, row);" (click)="onRowClick($event, row)"
+                *ngFor="let row of pageData()">
+                <th  class="text-right box-border" scope="row" *ngFor="let column of config.columns;">
+                    <column-template [row]="row" [column]="column"></column-template>
+                </th>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="d-flex">
+        <pagination *ngIf="config.paging" previousText="قبلی" nextText="بعدی" [totalItems]="totalItems"
+            [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="innerPageChanged($event)">
+        </pagination>
+        <img class="refresh" src="assets/images/refresh.svg" alt="refresh" (click)="refresh()">
+        <!-- <select name="pageSize" class="custom-select ng-valid ng-dirty ng-touched"
+            style="width: auto; font-size: 13px;">
+            <option value="10"> ۱۰ عدد</option>
+            <option value="25">۲۵ عدد</option>
+            <option value="50">۵۰ عدد</option>
+            <option value="100">۲۰۰ عدد</option>
+            <option value="250"> همه </option>
+        </select> -->
+    </div>
+</div>

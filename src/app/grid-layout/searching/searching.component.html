@@ -1,0 +1,14 @@
+<div class="d-flex mt-2">
+    <input type="text" class="form-control" (keyup.enter)="onEnter($event)"
+        [placeholder]="col.searchPlaceHolder ? col.searchPlaceHolder :''" />
+    <img src="assets/images/search.svg" alt="search">
+</div>
+
+<div class="mt-2" style="flex-wrap: wrap;display: flex;max-width: 250px;">
+    <div class="search-items" *ngFor="let item of col.searchKeywords">
+        <span class="m-1 search-keyword">{{ item.keyword}}</span>
+        <span class="mr-1 search-remove" (click)="onRemoveFilter(item)">
+            <img class="remove-icon" src="assets/images/close.svg">
+        </span>
+    </div>
+</div>
