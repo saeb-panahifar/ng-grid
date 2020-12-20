@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CellTemplateComponent } from '../grid-layout/cell-template.component';
+import { CellTemplateComponent } from '../ng-grid/column/cell-template.component';
 
 @Component({
   selector: 'app-widget',

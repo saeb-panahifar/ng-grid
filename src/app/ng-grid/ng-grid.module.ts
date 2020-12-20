@@ -8,8 +8,9 @@ import { PaginationComponent } from './paging/pagination/pagination.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { SortableHeader } from './sorting/sortable.directive';
-import { ColumnTemplateComponent } from './column-template.component';
+import { ColumnTemplateComponent } from './column/column-template.component';
 import { SearchingComponent } from './searching/searching.component';
+import { RowTemplateComponent } from './row/row-template.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { SearchingComponent } from './searching/searching.component';
         SortableHeader,
         ColumnTemplateComponent,
         SearchingComponent,
+        RowTemplateComponent
     ],
     exports: [
         TableComponent,
@@ -26,7 +28,8 @@ import { SearchingComponent } from './searching/searching.component';
         PaginationComponent,
         SortableHeader,
         ColumnTemplateComponent,
-        SearchingComponent
+        SearchingComponent,
+        RowTemplateComponent
     ],
     imports: [
         BrowserModule,
@@ -37,4 +40,4 @@ import { SearchingComponent } from './searching/searching.component';
     providers: [],
     bootstrap: []
 })
-export class GridLayoutModule { }
+export class NgGridModule { }

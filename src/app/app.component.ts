@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Search } from './grid-layout/models/search';
-import { compare, SortEvent } from './grid-layout/models/sort';
-import { ITable } from './grid-layout/models/table';
+import { Search } from './ng-grid/models/search';
+import { compare, SortEvent } from './ng-grid/models/sort';
+import { ITable } from './ng-grid/models/table';
 import { WidgetComponent } from './widget/widget.component';
 
 @Component({

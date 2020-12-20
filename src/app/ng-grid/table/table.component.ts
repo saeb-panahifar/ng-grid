@@ -39,9 +39,12 @@ export class TableComponent implements OnInit {
 
   @HostListener('document:mousedown', ['$event'])
   onClick(event: MouseEvent): void {
+
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.rowUnSelected(this.elementRef);
+      Array.from(this.elementRef.nativeElement.getElementsByTagName("tr"))
+        .forEach((element: any) => element.classList.remove('row-selected'));
     }
+
   }
 
   constructor(private elementRef: ElementRef) {
@@ -68,38 +71,10 @@ export class TableComponent implements OnInit {
   }
 
   onRowClick(event: any, row: any) {
-   
-    let newRow = document.createElement('tr');
-    let col = document.createElement('td');
-    col.innerHTML = "22344";
-    newRow.append(col);
-    let col1 = document.createElement('td');
-    newRow.append(col1);
-    this.insertAfter(newRow, event.target.closest('tr'));
 
-    this.rowSelected(event);
     this.onClick1.emit(row);
   }
 
-  onRowDbclick(event, row: any) {
-    this.rowSelected(event);
-    this.onDbclick.emit(row);
-  }
-
-  private rowSelected(event: any) {
-
-    Array.from(event.target.closest('tbody').rows)
-      .forEach((element: any) => element.classList.remove('row-selected'));
-    event.target.closest('tr').classList.add('row-selected');
-
-  }
-
-  private rowUnSelected(event: any) {
-
-    Array.from(event.nativeElement.getElementsByTagName("tr"))
-      .forEach((element: any) => element.classList.remove('row-selected'));
-
-  }
 
 
   refresh() {

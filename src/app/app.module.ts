@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { GridLayoutModule } from './grid-layout/grid-layout.module';
+import { NgGridModule } from './ng-grid/ng-grid.module';
 import { WidgetComponent } from './widget/widget.component';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { WidgetComponent } from './widget/widget.component';
   ],
   imports: [
     BrowserModule,
-    GridLayoutModule
+    NgGridModule
   ],
   providers: [],
   bootstrap: [AppComponent]

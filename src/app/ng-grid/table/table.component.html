@@ -17,13 +17,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr (dblclick)="onRowDbclick($event, row);" (click)="onRowClick($event, row)"
-                *ngFor="let row of pageData()">
-                <th  class="text-right box-border" scope="row" *ngFor="let column of config.columns;">
-                    <column-template [row]="row" [column]="column"></column-template>
+            <tr row-template (onRowClick)="onRowClick($event, row)" *ngFor="let row of pageData()">
+                <th column-template [row]="row" [column]="column" class="text-right box-border" scope="row"
+                    *ngFor="let column of config.columns;">
                 </th>
             </tr>
-
+            
         </tbody>
     </table>
     <div class="d-flex">
