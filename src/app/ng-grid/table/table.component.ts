@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   QueryList,
+  Renderer2,
   ViewChildren,
 } from '@angular/core';
 import { Search } from '../models/search';
@@ -41,13 +42,17 @@ export class TableComponent implements OnInit {
   onClick(event: MouseEvent): void {
 
     if (!this.elementRef.nativeElement.contains(event.target)) {
+
       Array.from(this.elementRef.nativeElement.getElementsByTagName("tr"))
-        .forEach((element: any) => element.classList.remove('row-selected'));
+        .forEach((element: any) => this.renderer.removeClass(element, 'row-selected'));
     }
 
   }
 
-  constructor(private elementRef: ElementRef) {
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2
+  ) {
 
     this.pageChanged = new EventEmitter<any>();
     this.onSorting = new EventEmitter<any>();
@@ -64,10 +69,6 @@ export class TableComponent implements OnInit {
       this.itemsPerPage = this.config.pageSize;
     }
 
-  }
-
-  insertAfter(newNode, existingNode) {
-    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
   }
 
   onRowClick(event: any, row: any) {
