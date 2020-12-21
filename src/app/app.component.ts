@@ -45,8 +45,28 @@ export class AppComponent {
         }
       ],
       pageSize: 10,
+
+      selectable: false,
       paging: true,
-      data: []
+      data: [],
+      expandable: true,
+      detail: {
+        columns: [
+          { field: "ID", title: "دریف" },
+          { field: "LastName", title: "نام" }
+        ],
+        onRowClick: (row: any) => {
+
+          return new Promise((resolve, reject) => {
+
+            this.http.get('/assets/data.json').subscribe(
+              (x: any) => { resolve(x.data); },
+              error => reject(error)
+            );
+            
+          });
+        }
+      },
     }
 
 

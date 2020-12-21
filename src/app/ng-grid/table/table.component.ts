@@ -41,7 +41,7 @@ export class TableComponent implements OnInit {
   @HostListener('document:mousedown', ['$event'])
   onClick(event: MouseEvent): void {
 
-    if (!this.elementRef.nativeElement.contains(event.target)) {
+    if (!this.elementRef.nativeElement.contains(event.target) && this.config.selectable && this.config.selectable == true) {
 
       Array.from(this.elementRef.nativeElement.getElementsByTagName("tr"))
         .forEach((element: any) => this.renderer.removeClass(element, 'row-selected'));

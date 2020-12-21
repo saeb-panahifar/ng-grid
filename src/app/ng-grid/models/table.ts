@@ -1,6 +1,10 @@
 
 export type align = 'right' | 'left' | 'center';
 
+export interface ITableDetail {
+    columns: Array<ITableColumn>;
+    onRowClick: (row: any) => Promise<any>;
+}
 export interface ITableColumn {
     field?: string;
     title: string;
@@ -13,7 +17,10 @@ export interface ITableColumn {
 }
 export interface ITable {
     columns: Array<ITableColumn>;
+    detail?: ITableDetail;
+    expandable?: boolean;
     pageSize?: number;
     paging: boolean;
+    selectable?: boolean;
     data: Array<any>;
 }

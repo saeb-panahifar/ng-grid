@@ -4,16 +4,21 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
+    Input,
     OnInit,
     Output,
     Renderer2,
     ViewContainerRef
 } from "@angular/core";
+import { ITable, ITableColumn } from "../models/table";
 
 @Directive({
     selector: '[row-template]'
 })
 export class RowTemplateComponent implements OnInit {
+
+    @Input() config: ITable;
+    @Input() rowData: any;
 
     @Output() onRowClick: EventEmitter<any>;
 
@@ -22,22 +27,23 @@ export class RowTemplateComponent implements OnInit {
     @HostListener('click', ['$event'])
     onClicked($event) {
 
-        Array.from($event.target.closest('tbody').rows)
-            .forEach((element: any) => this.renderer.removeClass(element, "row-selected"));
+        if (this.config.selectable && this.config.selectable == true) {
 
-        this.renderer.addClass(this.elementRef.nativeElement, "row-selected");
+            Array.from($event.target.closest('tbody').rows)
+                .forEach((element: any) => this.renderer.removeClass(element, "row-selected"));
+            this.renderer.addClass(this.elementRef.nativeElement, "row-selected");
 
+        }
 
-        // remark: add dynamic row here. 
-        this.addDynamicRow();
+        if (this.config.expandable && this.config.expandable == true) {
+            this.addDynamicRow();
+        }
 
         this.onRowClick.emit($event);
-
     }
 
     constructor(
         public viewContainerRef: ViewContainerRef,
-        private componentFactoryResolver: ComponentFactoryResolver,
         private elementRef: ElementRef,
         private renderer: Renderer2
     ) {
@@ -46,49 +52,58 @@ export class RowTemplateComponent implements OnInit {
 
     ngOnInit(): void { }
 
-    /**
-     * this code shoud be refactor. It's just a idea.
-     */
+
     addDynamicRow() {
 
         if (this.expanded) {
+
             const parent = this.elementRef.nativeElement.parentNode;
             const refChild = this.elementRef.nativeElement.nextSibling;
             this.renderer.removeChild(parent, refChild);
             this.expanded = false;
+
         } else {
+
             this.expanded = true;
 
-            const tr: HTMLTableRowElement = this.renderer.createElement('tr');
-            tr.className = "no-hover";
-            const td: HTMLTableRowElement = this.renderer.createElement('td');
-            td.setAttribute('colspan', '6');
-            td.innerHTML = `
-                        <table class="table table-bordered" style="width:90%;margin:auto;direction: rtl;text-align: right;">
-                        <tr>
-                            <th>نام</th>
-                            <th>نام خانوادگی</th>
-                            <th>سن</th>
-                        </tr>
-                        <tr>
-                            <td>هومن</td>
-                            <td>خدایی</td>
-                            <td>50</td>
-                        </tr>
-                        <tr>
-                            <td>امید</td>
-                            <td>رضایی</td>
-                            <td>94</td>
-                        </tr>
-                        </table> `;
-            tr.appendChild(td);
+            this.config.detail.onRowClick(this.rowData).then(data => {
 
-            const parent = this.elementRef.nativeElement.parentNode;
-            const refChild = this.elementRef.nativeElement.nextSibling;
-            this.renderer.insertBefore(parent, tr, refChild);
+                const table: HTMLTableElement = this.renderer.createElement('table');
+                table.style.width = "90%";
+                table.style.margin = "auto";
+                table.style.direction = "rtl";
+                table.style.textAlign = "right";
 
+                const td: HTMLTableRowElement = this.renderer.createElement('td');
+                td.setAttribute('colspan', this.config.columns.length.toString());
+                td.appendChild(table);
+
+                const tr: HTMLTableRowElement = this.renderer.createElement('tr');
+                tr.className = "no-hover";
+                tr.appendChild(td);
+
+                var tHead = table.createTHead();
+                var headerRow = tHead.insertRow();
+                
+                this.config.detail.columns.forEach((col: ITableColumn) => {
+                    var th = this.renderer.createElement('th');
+                    th.textContent = col.title;
+                    headerRow.appendChild(th);
+                });
+
+                var tBody = table.createTBody();
+                data.forEach((row: any) => {
+                    var bodyRow = tBody.insertRow();
+                    this.config.detail.columns.forEach((col: ITableColumn) => {
+                        bodyRow.insertCell().textContent = row[col.field];
+                    });
+                });
+
+                const parent = this.elementRef.nativeElement.parentNode;
+                const refChild = this.elementRef.nativeElement.nextSibling;
+                this.renderer.insertBefore(parent, tr, refChild);
+
+            });
         }
     }
-
-
 }
