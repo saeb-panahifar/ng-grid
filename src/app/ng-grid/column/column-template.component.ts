@@ -32,7 +32,7 @@ export class ColumnTemplateComponent implements OnInit {
 
       this.elementRef.nativeElement.innerHTML = this.row[this.column.field];
 
-    } else {
+    } else if (this.column.component) {
 
       const componentFactory = this.componentFactoryResolver
         .resolveComponentFactory<CellTemplateComponent>(this.column.component);
